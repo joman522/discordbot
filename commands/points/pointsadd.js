@@ -19,7 +19,7 @@ class pointsAdd extends commando.Command{
                 {
                     key:'amount',
                     prompt:'Um wie viel möchtest du den Punktestand erhöhen?',
-                    type:'int'
+                    type:'float'
                 }
             ]
         });
