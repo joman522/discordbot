@@ -3,13 +3,13 @@ const fs = require('fs')
 var points = JSON.parse(fs.readFileSync('./points.json', 'utf8'));
 
 
-class pointsAdd extends commando.Command{
+class pointsAddCommand extends commando.Command{
     constructor(client){
         super(client, {
             name: 'pointsadd',
             group: 'points',
             memberName: 'pointcommand',
-            description: 'Vergebe Punkte oder erhalte Infos über den Punktestand',
+            description: 'Vergebe Punkte an andere Mitglieder',
             args:[
                 {
                     key:'user',
@@ -25,22 +25,27 @@ class pointsAdd extends commando.Command{
         });
     }
 
-    async run(message, {user, amount}){       
+    async run(message, {user, amount}){ 
+        
+        if(message.author.id == user){
+            message.channel.sendMessage('Du kannst dir selbst keine Punkte geben')
+        }else{
 
-        if(!points[user]) {
-            points[user] = {
-                points: 0
+            if(!points[user]) {
+                points[user] = {
+                    points: 0
+                }
             }
-        }
-        let old_points = points[user].points;
+            let old_points = points[user].points;
 
-        points[user].points = old_points + amount
-        fs.writeFile('./points.json', JSON.stringify(points. null, 4), err=>{
-            if(err) throw err;
-            message.channel.send(user + ' hat nun ' + points[user].points)
-        })
+            points[user].points = old_points + amount
+            fs.writeFile('./points.json', JSON.stringify(points. null, 4), err=>{
+                if(err) throw err;
+                message.channel.send(user + ' hat nun ' + points[user].points + ' Punkte!')
+            })
+        }
 
     }
 }
 
-module.exports = pointsAdd;
+module.exports = pointsAddCommand;
