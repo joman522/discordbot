@@ -5,9 +5,6 @@ const bot = new commando.Client({
     disableEveryone: true
 });
 const token = process.env.token;
-const fs = require ('fs');
-
-bot.points = require('./points/points.json');
 
 bot.registry.registerGroup('random', 'Zufall');
 bot.registry.registerGroup('pics', 'Memes');
